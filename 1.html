@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body * {
+  display: block;
+}
+
+oppgave {
+  height: calc(1px * var(--initial-sugar-sticks));
+}
+
+match {
+  --bet-succeeded: min(max(calc(calc(var(--goals) - var(--bet)) + 1), 0), 1);
+  --bet-sum: round(calc(100% * 0.175), 1px);
+  --rest: calc(100% - var(--bet-sum));
+  --bet-result: round(calc(calc(var(--bet-sum) * var(--odds) + var(--bet-sum))), 1px);
+  height: calc(var(--rest) + calc(var(--bet-result) * var(--bet-succeeded)));
+}
+
+result {
+  height: calc(calc(1px * var(--initial-sugar-sticks)) - 100%);
+  width: 100px;
+  background-color: green;
+  color: white;
+}
+
+</style>
+<script>
+window.onload = () => {
+  const inputGoals = '2,0,1,3,3,1,2,1,1,3,2,1,0,0,2,0,0,0,1,0,0,1,2,1,0,0,0,0,1,3,0,0,0,1,0,0,1,0,0,1,5,3,0,2,1,2,1,0,1,1,1,0,0,1,0,0,0,0';
+  const inputBets = '[1, 1.71], [2, 2.24], [2, 2.32], [1, 1.73], [3, 2.77], [1, 1.65], [3, 2.81], [1, 1.71], [2, 1.94], [2, 2.09], [3, 2.69], [2, 2.14], [1, 1.67], [2, 2.08], [1, 1.71], [3, 2.64], [1, 1.66], [2, 2.29], [1, 1.69], [2, 2.24], [1, 1.69], [1, 1.72], [2, 2.14], [2, 2.26], [2, 2.19], [1, 1.79], [1, 1.67], [1, 1.72], [2, 2.18], [1, 1.72], [2, 2.12], [1, 1.74], [1, 1.71], [2, 2.19], [1, 1.69], [1, 1.77], [1, 1.78], [1, 1.74], [2, 2.22], [1, 1.72], [4, 4.39], [2, 2.31], [1, 1.74], [3, 2.87], [1, 1.81], [2, 2.21], [2, 2.16], [2, 2.38], [1, 1.7], [2, 2.27], [1, 1.68], [2, 2.19], [1, 1.78], [1, 1.77], [1, 1.69], [1, 1.72], [1, 1.67], [2, 2.08]';
+  const initialSugarSticks = 50000;
+  const goals = inputGoals.split(',');
+  const bets = JSON.parse(`[${inputBets}]`);
+  const root = document.createElement('oppgave');
+  root.style.setProperty('--initial-sugar-sticks', `${initialSugarSticks}`)
+  let node = root;
+  goals.forEach((goals, i) => {
+    const bet = bets[i][0];
+    const odds = bets[i][1];
+    const match = document.createElement('match');
+    match.style.setProperty('--goals', goals);
+    match.style.setProperty('--bet', bet);
+    match.style.setProperty('--odds', odds);
+    node.appendChild(match);
+    node = match;
+  });
+  const res = document.createElement('result');
+  res.innerText = 'Check my height';
+  node.appendChild(res);
+  document.body.appendChild(root);
+}
+</script>
+</head>
+<body>
+</body>
+</html>
